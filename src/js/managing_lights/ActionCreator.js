@@ -2,22 +2,15 @@
  * Created by novy on 23.04.15.
  */
 
-var AppDispatcher = require('../common/AppDispatcher');
-var LightActionTypes = require('./Constants').ActionTypes;
-
-// todo: call server via websocket
-// todo: register webscoket callback to update store
+var socket = require('./SocketListener');
+var Messages = require('./Constants').Messages;
 
 var lightStateActionCreator = {
 
-  switchLight: function (room, state) {
-
-    AppDispatcher.dispatch({
-      type: LightActionTypes.CHANGE_LIGHT_STATE,
-      payload: {
-        room: room,
-        state: state
-      }
+  switchLight: function (roomName, state) {
+    socket.emit(Messages.SWITCH_LIGHT, {
+      name: roomName,
+      state: state
     });
   }
 

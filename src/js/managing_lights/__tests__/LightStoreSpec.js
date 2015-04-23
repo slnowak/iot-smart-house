@@ -25,7 +25,7 @@ describe('LightStore should', function () {
     callback({
       type: LightActionTypes.CHANGE_LIGHT_STATE,
       payload: {
-        room: 'Kitchen',
+        name: 'Kitchen',
         state: 'on'
       }
     });
@@ -37,5 +37,28 @@ describe('LightStore should', function () {
       });
   });
 
+  it("should update whole state in response to SUBSTITUTE_LIGHT_CONFIGURATION action", function () {
+    var expectedLightState = [
+      {
+        name: 'room1',
+        state: 'off'
+      },
+      {
+        name: 'room2',
+        state: 'on'
+      }, {
+        name: 'room3',
+        state: 'off'
+      }
+    ];
+
+    callback({
+      type: LightActionTypes.SUBSTITUTE_LIGHT_CONFIGURATION,
+      payload: expectedLightState
+    });
+
+    expect(objectUnderTest.newestLightConfiguration()).toEqual(expectedLightState);
+
+  });
 
 });

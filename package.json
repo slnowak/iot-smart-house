@@ -44,6 +44,9 @@
     "flux": "^2.0.1",
     "react": "^0.13.2",
     "keymirror": "latest",
-    "lodash": "latest"
+    "lodash": "latest",
+    "socket.io-client": "latest",
+    "express": "latest",
+    "socket.io": "latest"
   }
 }

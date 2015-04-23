@@ -8,22 +8,7 @@ var AppDispatcher = require('../common/AppDispatcher');
 var EventEmitter = require("events").EventEmitter;
 var LightActionTypes = require("./Constants").ActionTypes;
 
-var _lights = {
-  Kitchen: {
-    name: 'Kitchen',
-    state: 'off'
-  },
-
-  Bedroom: {
-    name: 'Bedroom',
-    state: 'off'
-  },
-
-  Laundry: {
-    name: 'Laundry',
-    state: 'off'
-  }
-};
+var _lights = {};
 
 var CHANGE_EVENT = "changed";
 
@@ -51,8 +36,14 @@ LightStore.dispatchToken = AppDispatcher.register(function (action) {
 
   switch (action.type) {
     case LightActionTypes.CHANGE_LIGHT_STATE:
-      var payload = action.payload;
-      _lights[payload.room].state = payload.state;
+      var room = action.payload;
+      _lights[room.name] = room;
+      LightStore.emitChange();
+      break;
+
+    case LightActionTypes.SUBSTITUTE_LIGHT_CONFIGURATION:
+      var newLightConfiguration = action.payload;
+      _lights = _.object(_.pluck(newLightConfiguration, 'name'), newLightConfiguration);
       LightStore.emitChange();
       break;
 

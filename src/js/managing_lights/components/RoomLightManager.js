@@ -4,7 +4,7 @@
 
 var React = require('react');
 var LightStore = require('../LightStore');
-var PageHeader = require('react-bootstrap').PageHeader
+var PageHeader = require('react-bootstrap').PageHeader;
 var RoomSwitcher = require('./RoomLightSwitcher');
 
 var Manager = React.createClass({
@@ -32,7 +32,7 @@ var Manager = React.createClass({
   _createRoomLightSwitchers: function () {
     return this.state.rooms.map(function (room) {
       return (
-        <RoomSwitcher name={room.name} state={room.state}/>
+        <RoomSwitcher key={room.name} name={room.name} state={room.state}/>
       );
     });
   },
