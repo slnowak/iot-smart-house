@@ -15,14 +15,18 @@
     "gulp-util": "^3.0.4",
     "watchify": "^3.1.2",
     "reactify": "^1.1.0",
-    "browserify": "^9.0.8"
+    "browserify": "^9.0.8",
+    "jest-cli": "latest",
+    "babel-jest": "latest"
   },
   "scripts": {
+    "test": "./node_modules/.bin/jest",
     "dev": "gulp --type dev",
     "start": "gulp",
     "build": "gulp build"
   },
   "jest": {
+    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"],
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testFileExtensions": [
       "es6",
@@ -38,6 +42,8 @@
     "react-bootstrap": "^0.21.0",
     "object-assign": "^2.0.0",
     "flux": "^2.0.1",
-    "react": "^0.13.2"
+    "react": "^0.13.2",
+    "keymirror": "latest",
+    "lodash": "latest"
   }
 }
