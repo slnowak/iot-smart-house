@@ -41,7 +41,8 @@ var Manager = React.createClass({
 
     return (
       <div>
-        <PageHeader>Rooms</PageHeader>
+        <br/><br/><br/>
+        <PageHeader>Light</PageHeader>
         {this._createRoomLightSwitchers()}
       </div>
     );

@@ -46,6 +46,8 @@
     "keymirror": "latest",
     "lodash": "latest",
     "socket.io-client": "latest",
+    "react-router": "latest",
+    "react-router-bootstrap": "latest",
     "express": "latest",
     "socket.io": "latest"
   }
