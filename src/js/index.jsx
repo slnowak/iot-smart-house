@@ -1,4 +1,4 @@
 const React = require('react');
-const Hello = require('./HelloComponent');
+const RoomLightManager = require('./managing_lights/components/RoomLightManager');
 
-React.render(<Hello />, document.getElementById('main'));
+React.render(<RoomLightManager />, document.getElementById('main'));
