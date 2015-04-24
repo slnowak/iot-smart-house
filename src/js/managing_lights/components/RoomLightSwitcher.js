@@ -6,6 +6,7 @@ var React = require('react');
 var ActionCreator = require('../ActionCreator');
 var Button = require('react-bootstrap').Button;
 var Well = require('react-bootstrap').Well;
+var Label = require('react-bootstrap').Label;
 
 var RoomSwitcher = React.createClass({
 
@@ -20,21 +21,21 @@ var RoomSwitcher = React.createClass({
   },
 
   // todo: temporary
-  _cssColor: function () {
-    return this.props.state === 'on' ? 'green' : 'red';
+  style: function () {
+    return this.props.state === 'on' ? 'success' : 'danger';
   },
 
   render: function () {
-    var style = {
-      color: this._cssColor()
-    };
+    var style = this.style();
 
     return (
       <div className="container">
         <Well>
           <p>
-            <span>{this.props.name} : </span>
-            <span style={style}>{this.props.state}</span>
+            <span>{this.props.name} </span>
+            <Label bsStyle={style}>
+              {this.props.state}
+            </Label>
           </p>
           <Button bsStyle='primary' onClick={this._switch}>Switch!</Button>
         </Well>
