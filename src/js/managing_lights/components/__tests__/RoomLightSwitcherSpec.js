@@ -21,7 +21,7 @@ describe('RoomLightSwitcher should', function() {
     var button = TestUtils.findRenderedDOMComponentWithTag(objectUnderTest, 'button');
     TestUtils.Simulate.click(button);
 
-    expect(ActionCreatorMock.changeDesiredTemperature).toBeCalledWith('Kitchen', 'on');
+    expect(ActionCreatorMock.switchLight).toBeCalledWith('Kitchen', 'on');
 
   });
 
