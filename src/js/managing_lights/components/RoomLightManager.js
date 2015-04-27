@@ -11,7 +11,7 @@ var Manager = React.createClass({
 
   getInitialState: function () {
     return {
-      rooms: LightStore.newestLightConfiguration()
+      rooms: LightStore.newestLightData()
     }
   },
 
@@ -25,7 +25,7 @@ var Manager = React.createClass({
 
   _onRoomConfigurationChanged: function () {
     this.setState({
-      rooms: LightStore.newestLightConfiguration()
+      rooms: LightStore.newestLightData()
     })
   },
 

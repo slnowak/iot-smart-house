@@ -30,7 +30,7 @@ describe('LightStore should', function () {
       }
     });
 
-    expect(objectUnderTest.newestLightConfiguration())
+    expect(objectUnderTest.newestLightData())
       .toContain({
         name: 'Kitchen',
         state: 'on'
@@ -57,7 +57,7 @@ describe('LightStore should', function () {
       payload: expectedLightState
     });
 
-    expect(objectUnderTest.newestLightConfiguration()).toEqual(expectedLightState);
+    expect(objectUnderTest.newestLightData()).toEqual(expectedLightState);
 
   });
 

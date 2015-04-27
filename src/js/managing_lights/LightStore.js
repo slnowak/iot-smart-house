@@ -26,7 +26,7 @@ var LightStore = assign({}, EventEmitter.prototype, {
     this.emit(CHANGE_EVENT);
   },
 
-  newestLightConfiguration: function () {
+  newestLightData: function () {
     return _.values(_lights);
   }
 
