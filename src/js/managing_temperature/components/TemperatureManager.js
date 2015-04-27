@@ -8,45 +8,28 @@ var Well = require('react-bootstrap').Well;
 var PageHeader = require('react-bootstrap').PageHeader;
 var SystemSensorCoordinator = require('./SystemSensorCoordinator');
 var RoomTemperatureCoordinator = require('./RoomTemperatureCoordinator');
+var TemperatureStore = require('../TemperatureStore');
 
 var TemperatureManager = React.createClass({
 
   getInitialState: function () {
     return {
-      rooms: [
-        {
-          name: 'Kitchen',
-          currentTemperature: 20,
-          desiredTemperature: 22,
-          sensors: [
-            {
-              name: 'Central Heating',
-              state: 'off'
-            },
-            {
-              name: 'Air Conditioning',
-              state: 'on'
-            }
-          ]
-        },
-        {
-          name: 'Bedroom',
-          currentTemperature: 25,
-          desiredTemperature: 22,
-          sensors: [
-            {
-              name: 'Central Heating',
-              state: 'off'
-            },
-            {
-              name: 'Air Conditioning',
-              state: 'on'
-            }
-          ]
-        }
-      ]
-
+      rooms: TemperatureStore.newestTemperatureData()
     };
+  },
+
+  componentDidMount: function () {
+    TemperatureStore.addChangeListener(this._onTemperatureDataChanged);
+  },
+
+  componentWillUnmount: function () {
+    TemperatureStore.removeChangeListener(this._onTemperatureDataChanged);
+  },
+
+  _onTemperatureDataChanged: function () {
+    this.setState({
+      rooms: TemperatureStore.newestTemperatureData()
+    });
   },
 
   _createRoomTemperatureHandlers: function () {
@@ -55,7 +38,7 @@ var TemperatureManager = React.createClass({
       return (
         <Jumbotron key={room.name}>
           <RoomTemperatureCoordinator
-            name={room.name}
+            name={room.roomName}
             currentTemperature={room.currentTemperature}
             desiredTemperature={room.desiredTemperature}
             />
