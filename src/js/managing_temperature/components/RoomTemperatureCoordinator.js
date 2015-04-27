@@ -26,7 +26,7 @@ var RoomTemperatureCoordinator = React.createClass({
 
         <div className="row">
           <div className="col-md-4">
-            <Input type="range" onChange={this._onDesiredTemperatureChanged}/>
+            <Input type="range" value={this.props.desiredTemperature} onChange={this._onDesiredTemperatureChanged}/>
           </div>
 
           <div className="col-md-8">

@@ -19,7 +19,7 @@ var SystemSensor = React.createClass({
     return (
       <div>
         <p>
-          <span>{this.props.name}</span>
+          <span>{this.props.name}  </span>
           <Label bsStyle={style}>
             {this.props.state}
           </Label>

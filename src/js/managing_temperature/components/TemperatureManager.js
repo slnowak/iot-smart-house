@@ -36,7 +36,7 @@ var TemperatureManager = React.createClass({
 
     return this.state.rooms.map(function (room) {
       return (
-        <Jumbotron key={room.name}>
+        <Jumbotron key={room.roomName}>
           <RoomTemperatureCoordinator
             name={room.roomName}
             currentTemperature={room.currentTemperature}
