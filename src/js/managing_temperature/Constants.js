@@ -13,5 +13,10 @@ module.exports = {
     UPDATE_SYSTEM_SENSOR: null
   }),
 
-  Messages: {}
+  Messages: {
+    ALL_TEMPERATURES: 'temperatures',
+    TEMPERATURE_CHANGED: 'temperature_changed',
+    SYSTEM_SENSOR_CHANGED: 'sensor_changed',
+    DESIRED_TEMPERATURE_CHANGED: 'desired_temperature_changed'
+  }
 };

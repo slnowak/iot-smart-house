@@ -4,8 +4,15 @@
 
 var React = require('react');
 var Input = require('react-bootstrap').Input;
+var ActionCreator = require('../ActionCreator');
 
 var RoomTemperatureCoordinator = React.createClass({
+
+  _onDesiredTemperatureChanged: function (event) {
+    ActionCreator.changeDesiredTemperature(
+      this.props.name, event.target.value
+    );
+  },
 
   render: function () {
     return (
@@ -19,7 +26,7 @@ var RoomTemperatureCoordinator = React.createClass({
 
         <div className="row">
           <div className="col-md-4">
-            <Input type="range"/>
+            <Input type="range" onChange={this._onDesiredTemperatureChanged}/>
           </div>
 
           <div className="col-md-8">
