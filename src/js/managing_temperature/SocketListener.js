@@ -7,7 +7,7 @@ var AppDispatcher = require('../common/AppDispatcher');
 var TemperatureActionTypes = require('./Constants').ActionTypes;
 var Messages = require('./Constants').Messages;
 
-var listenOnSocket = function (socket) {
+var listen = function (socket) {
   socket
     .on(Messages.ALL_TEMPERATURES, function (allTemperaturesData) {
 
@@ -25,7 +25,7 @@ var listenOnSocket = function (socket) {
       });
 
     })
-    .on(Messages.SYSTEM_SENSOR_CHANGED, function(systemSensorChange) {
+    .on(Messages.SYSTEM_SENSOR_CHANGED, function (systemSensorChange) {
 
       AppDispatcher.dispatch({
         type: TemperatureActionTypes.UPDATE_SYSTEM_SENSOR,
@@ -35,8 +35,6 @@ var listenOnSocket = function (socket) {
     });
 };
 
-// todo: hardcoded uri
-var socket = io.connect('http://localhost:9091');
-listenOnSocket(socket);
-
-module.exports = socket;
+module.exports = {
+  listen: listen
+};

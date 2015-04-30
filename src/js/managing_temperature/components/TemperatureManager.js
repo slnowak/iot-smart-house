@@ -9,6 +9,7 @@ var PageHeader = require('react-bootstrap').PageHeader;
 var SystemSensorCoordinator = require('./SystemSensorCoordinator');
 var RoomTemperatureCoordinator = require('./RoomTemperatureCoordinator');
 var TemperatureStore = require('../TemperatureStore');
+var ActionCreator = require('../ActionCreator');
 
 var TemperatureManager = React.createClass({
 
@@ -16,6 +17,10 @@ var TemperatureManager = React.createClass({
     return {
       rooms: TemperatureStore.newestTemperatureData()
     };
+  },
+
+  componentWillMount: function () {
+    ActionCreator.init();
   },
 
   componentDidMount: function () {

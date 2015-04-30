@@ -6,6 +6,7 @@ var React = require('react');
 var LightStore = require('../LightStore');
 var PageHeader = require('react-bootstrap').PageHeader;
 var RoomSwitcher = require('./RoomLightSwitcher');
+var ActionCreator = require('../ActionCreator');
 
 var Manager = React.createClass({
 
@@ -13,6 +14,10 @@ var Manager = React.createClass({
     return {
       rooms: LightStore.newestLightData()
     }
+  },
+
+  componentWillMount: function () {
+    ActionCreator.init();
   },
 
   componentDidMount: function () {

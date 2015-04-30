@@ -7,6 +7,7 @@ var keyMirror = require('keymirror');
 module.exports = {
 
   ActionTypes: keyMirror({
+    INIT: null,
     CHANGE_LIGHT_STATE: null,
     SUBSTITUTE_LIGHT_CONFIGURATION: null
   }),

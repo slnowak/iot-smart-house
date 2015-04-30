@@ -6,7 +6,7 @@ jest.dontMock('../RoomLightSwitcher');
 jest.dontMock('react/addons');
 jest.dontMock('react-bootstrap');
 
-describe('RoomLightSwitcher should', function() {
+describe('RoomLightSwitcher should', function () {
 
   it("call action creator on button click", function () {
     var RoomLightSwitcher = require('../RoomLightSwitcher');
@@ -15,7 +15,7 @@ describe('RoomLightSwitcher should', function() {
     var ActionCreatorMock = require('../../ActionCreator');
 
     var objectUnderTest = TestUtils.renderIntoDocument(
-      <RoomLightSwitcher name="Kitchen" state="off" />
+      <RoomLightSwitcher name="Kitchen" state="off"/>
     );
 
     var button = TestUtils.findRenderedDOMComponentWithTag(objectUnderTest, 'button');
