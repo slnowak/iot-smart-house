@@ -23,21 +23,28 @@ var ConnectScreen = React.createClass({
     })
   },
 
-  handleConnectionConfirmed: function() {
+  handleConnectionConfirmed: function(event) {
+    event.preventDefault();
     ActionCreator.saveRemoteUrl(
       this.state.remoteUrl
     );
   },
 
+  onRequestHide: function() {},
+
   render: function () {
+    //todo: switch back to modal
+    // todo: fix routes
     return (
-      <Modal
+      <div
         title='Connecting...'
         bsStyle='primary'
         backdrop={false}
         animation={true}
         closeButton={false}
+        onRequestHide={this.onRequestHide}
         >
+        <br/><br/><br/>
         <div className='modal-body'>
           <form className="form" onSubmit={this.handleConnectionConfirmed}>
             <Input type="url"
@@ -54,7 +61,7 @@ var ConnectScreen = React.createClass({
           </form>
         </div>
 
-      </Modal>
+      </div>
     )
   }
 

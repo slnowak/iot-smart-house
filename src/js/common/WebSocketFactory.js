@@ -8,8 +8,6 @@ var ConfigurationStore = require('./ConfigurationStore');
 var WebSocketFactory = {
 
   lightsWebSocket: function () {
-    console.log('light url ' +     ConfigurationStore.lightsSocketEndpoint()
-    );
     return io.connect(
       ConfigurationStore.lightsSocketEndpoint()
     )

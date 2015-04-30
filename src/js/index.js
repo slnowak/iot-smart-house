@@ -16,6 +16,7 @@ var routes = (
     <DefaultRoute handler={ConnectScreen}/>
     <Route name="lights" path="lights/" handler={RoomLightManager}/>
     <Route name="temperatures" path="temperatures/" handler={TemperatureManager}/>
+    <Route name="configuration" path="configuration/" handler={ConnectScreen}/>
   </Route>
 );
 
