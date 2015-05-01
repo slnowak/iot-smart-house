@@ -43,9 +43,8 @@ var ConnectScreen = React.createClass({
   },
 
   render: function () {
-    //todo: switch back to modal
     return (
-      <div
+      <Modal
         title='Connecting...'
         bsStyle='primary'
         backdrop={false}
@@ -53,8 +52,6 @@ var ConnectScreen = React.createClass({
         closeButton={false}
         onRequestHide={this.onRequestHide}
         >
-        <br/><br/><br/>
-
         <div className='modal-body'>
           <form className="form" onSubmit={this.handleConnectionConfirmed}>
             <Input type="url"
@@ -71,7 +68,7 @@ var ConnectScreen = React.createClass({
           </form>
         </div>
 
-      </div>
+      </Modal>
     )
   }
 

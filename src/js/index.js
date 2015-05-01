@@ -13,7 +13,7 @@ var NavBar = require('./common/components/NavBar');
 var routes = (
   <Route handler={NavBar} path={RouteConstants.ROOT}>
 
-    <DefaultRoute handler={ConnectScreen}/>
+    <DefaultRoute handler={RoomLightManager}/>
     <Route name="lights" path={RouteConstants.LIGHTS} handler={RoomLightManager}/>
     <Route name="temperatures" path={RouteConstants.TEMPERATURE} handler={TemperatureManager}/>
     <Route name="configuration" path={RouteConstants.CONFIGURATION} handler={ConnectScreen}/>
