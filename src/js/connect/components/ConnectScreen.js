@@ -7,6 +7,7 @@ var Modal = require('react-bootstrap').Modal;
 var Button = require('react-bootstrap').Button;
 var Input = require('react-bootstrap').Input;
 var ActionCreator = require('../ActionCreator');
+var Routes = require('../../common/Constants').Routes;
 
 var ConnectScreen = React.createClass({
 
@@ -36,6 +37,8 @@ var ConnectScreen = React.createClass({
     var nextPath = router.getCurrentQuery().nextPath;
     if (nextPath) {
       router.replaceWith(nextPath);
+    } else {
+      router.replaceWith(Routes.ROOT);
     }
   },
 
