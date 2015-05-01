@@ -6,17 +6,17 @@ var ConnectScreen = require('./connect/components/ConnectScreen');
 var Router = require('react-router');
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
-var Redirect = Router.Redirect;
+var RouteConstants = require('./common/Constants').Routes;
 
 var NavBar = require('./common/components/NavBar');
 
 var routes = (
-  <Route handler={NavBar} path="/">
+  <Route handler={NavBar} path={RouteConstants.ROOT}>
 
     <DefaultRoute handler={ConnectScreen}/>
-    <Route name="lights" path="lights/" handler={RoomLightManager}/>
-    <Route name="temperatures" path="temperatures/" handler={TemperatureManager}/>
-    <Route name="configuration" path="configuration/" handler={ConnectScreen}/>
+    <Route name="lights" path={RouteConstants.LIGHTS} handler={RoomLightManager}/>
+    <Route name="temperatures" path={RouteConstants.TEMPERATURE} handler={TemperatureManager}/>
+    <Route name="configuration" path={RouteConstants.CONFIGURATION} handler={ConnectScreen}/>
   </Route>
 );
 

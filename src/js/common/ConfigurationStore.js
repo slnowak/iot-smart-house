@@ -6,6 +6,9 @@ var AppDispatcher = require('./AppDispatcher');
 var ActionTypes = require('./Constants').ActionTypes;
 var cookie = require('react-cookie');
 
+var URL_KEY = 'url';
+
+
 var _lightsUrl = '';
 var _temperatureUrl = '';
 
@@ -14,7 +17,11 @@ var determineUrlsFrom = function(baseUrl) {
   _temperatureUrl = baseUrl + ':9091';
 };
 
-determineUrlsFrom(cookie.load('url'));
+determineUrlsFrom(cookie.load(URL_KEY));
+
+var cookieConfiguration = {
+  maxAge: 120
+};
 
 var ConfigurationStore = {
   lightsSocketEndpoint: function () {
@@ -23,6 +30,10 @@ var ConfigurationStore = {
 
   temperatureSocketEndpoint: function () {
     return _temperatureUrl;
+  },
+
+  hasConfiguration: function() {
+    return cookie.load(URL_KEY);
   }
 
 };
@@ -32,7 +43,9 @@ ConfigurationStore.dispatchToken = AppDispatcher.register(function (action) {
   switch (action.type) {
 
     case ActionTypes.UPDATE_URL_CONFIGURATION:
-      determineUrlsFrom(action.url);
+      var newRemoteUrl = action.url;
+      determineUrlsFrom(newRemoteUrl);
+      cookie.save(URL_KEY, newRemoteUrl, cookieConfiguration);
       break;
 
     default:

@@ -4,14 +4,16 @@
 
 var React = require('react');
 var Jumbotron = require('react-bootstrap').Jumbotron;
-var Well = require('react-bootstrap').Well;
 var PageHeader = require('react-bootstrap').PageHeader;
 var SystemSensorCoordinator = require('./SystemSensorCoordinator');
 var RoomTemperatureCoordinator = require('./RoomTemperatureCoordinator');
 var TemperatureStore = require('../TemperatureStore');
 var ActionCreator = require('../ActionCreator');
+var ConfigurationMixin = require('../../common/ConfigurationMixin');
 
 var TemperatureManager = React.createClass({
+
+  mixins: [ConfigurationMixin],
 
   getInitialState: function () {
     return {

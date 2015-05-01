@@ -8,8 +8,11 @@ var Button = require('react-bootstrap').Button;
 var Input = require('react-bootstrap').Input;
 var ActionCreator = require('../ActionCreator');
 
-
 var ConnectScreen = React.createClass({
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getInitialState: function () {
     return {
@@ -23,18 +26,24 @@ var ConnectScreen = React.createClass({
     })
   },
 
-  handleConnectionConfirmed: function(event) {
+  handleConnectionConfirmed: function (event) {
     event.preventDefault();
     ActionCreator.saveRemoteUrl(
       this.state.remoteUrl
     );
+
+    var {router} = this.context;
+    var nextPath = router.getCurrentQuery().nextPath;
+    if (nextPath) {
+      router.replaceWith(nextPath);
+    }
   },
 
-  onRequestHide: function() {},
+  onRequestHide: function () {
+  },
 
   render: function () {
     //todo: switch back to modal
-    // todo: fix routes
     return (
       <div
         title='Connecting...'
@@ -45,6 +54,7 @@ var ConnectScreen = React.createClass({
         onRequestHide={this.onRequestHide}
         >
         <br/><br/><br/>
+
         <div className='modal-body'>
           <form className="form" onSubmit={this.handleConnectionConfirmed}>
             <Input type="url"

@@ -7,8 +7,11 @@ var LightStore = require('../LightStore');
 var PageHeader = require('react-bootstrap').PageHeader;
 var RoomSwitcher = require('./RoomLightSwitcher');
 var ActionCreator = require('../ActionCreator');
+var ConfigurationMixin = require('../../common/ConfigurationMixin');
 
 var Manager = React.createClass({
+
+  mixins: [ConfigurationMixin],
 
   getInitialState: function () {
     return {

@@ -8,5 +8,12 @@ module.exports = {
 
   ActionTypes: keyMirror({
     UPDATE_URL_CONFIGURATION: null
-  })
+  }),
+
+  Routes: {
+    ROOT: '/',
+    LIGHTS: '/lights',
+    TEMPERATURE: '/temperature',
+    CONFIGURATION: '/configuration'
+  }
 };
