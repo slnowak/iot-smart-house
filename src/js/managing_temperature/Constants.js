@@ -7,6 +7,7 @@ var keyMirror = require('keymirror');
 module.exports = {
 
   ActionTypes: keyMirror({
+    INIT: null,
     UPDATE_ALL_DATA: null,
     UPDATE_TEMPERATURE: null,
     UPDATE_DESIRED_TEMPERATURE: null,

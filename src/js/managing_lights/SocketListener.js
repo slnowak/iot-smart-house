@@ -7,7 +7,7 @@ var AppDispatcher = require('../common/AppDispatcher');
 var LightActionTypes = require('./Constants').ActionTypes;
 var Messages = require('./Constants').Messages;
 
-var listenOnSocket = function (socket) {
+var listen = function (socket) {
   socket
     .on(Messages.LIGHTS_CHANGED, function (newConfiguration) {
 
@@ -27,8 +27,6 @@ var listenOnSocket = function (socket) {
     });
 };
 
-// todo: hardcoded uri
-var socket = io.connect('http://localhost:9090');
-listenOnSocket(socket);
-
-module.exports = socket;
+module.exports = {
+  listen: listen
+};

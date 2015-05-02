@@ -134,7 +134,7 @@ io
 
     sendRandomLightConfiguration(socket);
 
-    var temperatureInterval = setInterval(function(){
+    var temperatureInterval = setInterval(function () {
       sendRandomTemperatureChange(socket)
     }, 5000);
 

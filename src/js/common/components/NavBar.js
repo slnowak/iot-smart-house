@@ -29,6 +29,13 @@ var NavBar = React.createClass({
           </NavItemLink>
         </Nav>
 
+        <Nav>
+          <NavItemLink to="configuration">
+            Configuration
+          </NavItemLink>
+        </Nav>
+
+
         <RouteHandler />
       </Navbar>
     );

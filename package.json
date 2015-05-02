@@ -49,6 +49,7 @@
     "react-router": "latest",
     "react-router-bootstrap": "latest",
     "express": "latest",
-    "socket.io": "latest"
+    "socket.io": "latest",
+    "react-cookie": "latest"
   }
 }
