@@ -4,9 +4,7 @@
 
 var WebSocketFactory = require('../common/WebSocketFactory');
 var SocketListener = require('./SocketListener');
-var TemperatureActionTypes = require('./Constants').ActionTypes;
 var Messages = require('./Constants').Messages;
-var AppDispatcher = require('../common/AppDispatcher');
 
 var _socket;
 
@@ -21,14 +19,6 @@ var temperatureActionCreator = {
     _socket.emit(Messages.DESIRED_TEMPERATURE_CHANGED, {
       roomName: roomName,
       temperature: desiredTemperature
-    });
-
-    AppDispatcher.dispatch({
-      type: TemperatureActionTypes.UPDATE_DESIRED_TEMPERATURE,
-      payload: {
-        roomName: roomName,
-        temperature: desiredTemperature
-      }
     });
   }
 

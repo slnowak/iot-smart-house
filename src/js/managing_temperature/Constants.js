@@ -9,15 +9,12 @@ module.exports = {
   ActionTypes: keyMirror({
     INIT: null,
     UPDATE_ALL_DATA: null,
-    UPDATE_TEMPERATURE: null,
     UPDATE_DESIRED_TEMPERATURE: null,
-    UPDATE_SYSTEM_SENSOR: null
+    UPDATE_CURRENT_GLOBAL_TEMPERATURE: null
   }),
 
   Messages: {
-    ALL_TEMPERATURES: 'temperatures',
-    TEMPERATURE_CHANGED: 'temperature_changed',
-    SYSTEM_SENSOR_CHANGED: 'sensor_changed',
+    DESIRED_TEMPERATURES: 'desired_temperatures',
     DESIRED_TEMPERATURE_CHANGED: 'desired_temperature_changed'
   }
 };

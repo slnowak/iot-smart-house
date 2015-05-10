@@ -25,35 +25,12 @@ describe('TemperatureStore should', function () {
     //given
     var kitchen = {
       roomName: "Kitchen",
-      currentTemperature: 25,
-      desiredTemperature: 20,
-      sensors: [
-
-        {
-          name: 'Air Conditioning',
-          state: 'on'
-        },
-        {
-          name: 'Central Heating',
-          state: 'off'
-        }
-      ]
+      temperature: 25
     };
 
     var bedroom = {
       roomName: "Bedroom",
-      currentTemperature: 20,
-      desiredTemperature: 30,
-      sensors: [
-        {
-          name: 'Air Conditioning',
-          state: 'off'
-        },
-        {
-          name: 'Central Heating',
-          state: 'on'
-        }
-      ]
+      temperature: 20
     };
 
     //when
@@ -63,50 +40,8 @@ describe('TemperatureStore should', function () {
     });
 
     //then
-    expect(objectUnderTest.newestTemperatureData())
+    expect(objectUnderTest.desiredTemperature())
       .toEqual([kitchen, bedroom]);
-
-  });
-
-  it("update temperature in response to UPDATE_TEMPERATURE action", function () {
-    //given
-    var kitchen = {
-      roomName: "Kitchen",
-      currentTemperature: 25,
-      desiredTemperature: 20,
-      sensors: [
-        {
-          name: 'Air Conditioning',
-          state: 'on'
-        },
-        {
-          name: 'Central Heating',
-          state: 'off'
-        }
-      ]
-    };
-
-    callback({
-      type: TemperatureActionTypes.UPDATE_ALL_DATA,
-      payload: [kitchen]
-    });
-
-
-    //when
-    callback({
-      type: TemperatureActionTypes.UPDATE_TEMPERATURE,
-      payload: {
-        roomName: 'Kitchen',
-        temperature: 10
-      }
-    });
-
-    var merge = require('lodash').merge;
-    var desiredKitchenConfiguration = merge({}, kitchen);
-    desiredKitchenConfiguration.currentTemperature = 10;
-
-    //then
-    expect(objectUnderTest.newestTemperatureData()).toEqual([desiredKitchenConfiguration]);
 
   });
 
@@ -114,18 +49,7 @@ describe('TemperatureStore should', function () {
     //given
     var kitchen = {
       roomName: "Kitchen",
-      currentTemperature: 25,
-      desiredTemperature: 20,
-      sensors: [
-        {
-          name: 'Air Conditioning',
-          state: 'on'
-        },
-        {
-          name: 'Central Heating',
-          state: 'off'
-        }
-      ]
+      temperature: 25
     };
 
     callback({
@@ -145,56 +69,25 @@ describe('TemperatureStore should', function () {
 
     var merge = require('lodash').merge;
     var desiredKitchenConfiguration = merge({}, kitchen);
-    desiredKitchenConfiguration.desiredTemperature = 10;
+    desiredKitchenConfiguration.temperature = 10;
 
     //then
-    expect(objectUnderTest.newestTemperatureData()).toEqual([desiredKitchenConfiguration]);
+    expect(objectUnderTest.desiredTemperature()).toEqual([desiredKitchenConfiguration]);
 
   });
 
-  it("update system sensor state in response to UPDATE_SYSTEM_SENSOR action", function () {
-    //given
-    var kitchen = {
-      roomName: "Kitchen",
-      currentTemperature: 25,
-      desiredTemperature: 20,
-      sensors: [
-        {
-          name: 'Air Conditioning',
-          state: 'on'
-        },
-        {
-          name: 'Central Heating',
-          state: 'off'
-        }
-      ]
-    };
-
-    callback({
-      type: TemperatureActionTypes.UPDATE_ALL_DATA,
-      payload: [kitchen]
-    });
-
+  it("update current global in response to UPDATE_CURRENT_GLOBAL_TEMPERATURE action", function () {
 
     //when
     callback({
-      type: TemperatureActionTypes.UPDATE_SYSTEM_SENSOR,
-      payload: {
-        roomName: 'Kitchen',
-        sensor: {
-          name: 'Air Conditioning',
-          state: 'off'
-        }
-      }
+      type: TemperatureActionTypes.UPDATE_CURRENT_GLOBAL_TEMPERATURE,
+      payload: 666
     });
 
-    var merge = require('lodash').merge;
-    var desiredKitchenConfiguration = merge({}, kitchen);
-    desiredKitchenConfiguration.sensors[0].state = 'off';
-
     //then
-    expect(objectUnderTest.newestTemperatureData()).toEqual([desiredKitchenConfiguration]);
+    expect(objectUnderTest.currentGlobalTemperature()).toEqual(666);
 
   });
+
 
 });

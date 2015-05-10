@@ -4,6 +4,7 @@
 
 var React = require('react');
 var Input = require('react-bootstrap').Input;
+var Well = require('react-bootstrap').Well;
 var ActionCreator = require('../ActionCreator');
 
 var RoomTemperatureCoordinator = React.createClass({
@@ -16,13 +17,8 @@ var RoomTemperatureCoordinator = React.createClass({
 
   render: function () {
     return (
-      <div>
+      <Well>
         <h2>{this.props.name}</h2>
-
-        <p>
-          <span>Current temperature: </span>
-          <span>{this.props.currentTemperature} </span>
-        </p>
 
         <div className="row">
           <div className="col-md-4">
@@ -37,7 +33,7 @@ var RoomTemperatureCoordinator = React.createClass({
             </p>
           </div>
         </div>
-      </div>
+      </Well>
     );
   }
 

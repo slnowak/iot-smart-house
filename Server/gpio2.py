@@ -36,9 +36,9 @@ pins = {
 }
 
 rooms_desired_temp = {
-    'room1': 20,
-    'room2': 20,
-    'room3': 20
+    'room1': 30,
+    'room2': 30,
+    'room3': 30
 }
 
 current_temp = read_temp()
@@ -93,19 +93,19 @@ def init_sync_lights():
 @socketio.on('connect', namespace='/temperature')
 def init_sync_temp():
     print "Temperature connected!"
-    emit('temperatures',
+    emit('desired_temperatures',
          [
              {
-                 'room_name': 'room1',
-                 'state': rooms_desired_temp['room1']
+                 'roomName': 'room1',
+                 'temperature': rooms_desired_temp['room1']
              },
              {
-                 'room_name': 'room2',
-                 'state': rooms_desired_temp['room2']
+                 'roomName': 'room2',
+                 'temperature': rooms_desired_temp['room2']
              },
              {
-                 'room_name': 'room3',
-                 'state': rooms_desired_temp['room3']
+                 'roomName': 'room3',
+                 'temperature': rooms_desired_temp['room3']
              }
          ])
 
@@ -153,24 +153,24 @@ def handle_light_change(data):
 
 @socketio.on('desired_temperature_changed', namespace='/temperature')
 def handle_desired_temp_change(data):
-    room_id = data['room_name']
+    room_id = data['roomName']
     temp = data['temperature']
 
     rooms_desired_temp[room_id] = temp
 
-    emit('temperatures',
+    emit('desired_temperatures',
          [
              {
-                 'room_name': 'room1',
-                 'state': rooms_desired_temp['room1']
+                 'roomName': 'room1',
+                 'temperature': rooms_desired_temp['room1']
              },
              {
-                 'room_name': 'room2',
-                 'state': rooms_desired_temp['room2']
+                 'roomName': 'room2',
+                 'temperature': rooms_desired_temp['room2']
              },
              {
-                 'room_name': 'room3',
-                 'state': rooms_desired_temp['room3']
+                 'roomName': 'room3',
+                 'temperature': rooms_desired_temp['room3']
              }
          ]
     )
