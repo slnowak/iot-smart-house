@@ -1,10 +1,10 @@
 from gevent import monkey
+import gevent
 
 monkey.patch_all()
 
-from flask import Flask
+from flask import Flask, copy_current_request_context
 from flask.ext.socketio import SocketIO, emit
-from threading import Thread
 
 import dhtreader
 import RPi.GPIO as GPIO
@@ -109,6 +109,12 @@ def init_sync_temp():
              }
          ])
 
+    @copy_current_request_context
+    def keep_sending_global_sensor_state(namespace):
+        send_global_temp(namespace)
+
+    gevent.spawn(keep_sending_global_sensor_state, '/temperature')
+
 
 @socketio.on('disconnect', namespace='/temperature')
 def test_disconnect_temp():
@@ -172,27 +178,33 @@ def handle_desired_temp_change(data):
                  'roomName': 'room3',
                  'temperature': rooms_desired_temp['room3']
              }
-         ]
-    )
+         ])
 
     print "Desired Temp Change!"
     return
 
 
-@socketio.on('get_global_temp', namespace='/temperature')
-def send_global_temp():
+def send_global_temp(namespace):
     global current_temp
     while True:
         current_temp = read_temp()
         count_temp_avg_set_condition_or_heating()
 
-        emit('global_temp',
-             {
-                 'global_temp': current_temp,
-                 'air_condition': air_condition,
-                 'central_heating': central_heating
-             }
-             , broadcast=True)
+        emit('sensors_state', {
+            'currentTemp': current_temp,
+            'sensors': [
+                {
+                    'name': 'Air Conditioning',
+                    'state': air_condition
+                },
+                {
+                    'name': 'Central Heating',
+                    'state': central_heating
+                },
+
+            ]
+
+        }, broadcast=True, namespace=namespace)
 
         print 'global Temp Send'
         time.sleep(5)
@@ -207,5 +219,3 @@ signal.signal(signal.SIGINT, signal_handler)
 
 if __name__ == "__main__":
     socketio.run(app, host='0.0.0.0')
-    t = Thread(target=send_global_temp, args=())
-    t.start()

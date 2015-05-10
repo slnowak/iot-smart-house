@@ -18,7 +18,7 @@ var temperatureActionCreator = {
   changeDesiredTemperature: function (roomName, desiredTemperature) {
     _socket.emit(Messages.DESIRED_TEMPERATURE_CHANGED, {
       roomName: roomName,
-      temperature: desiredTemperature
+      temperature: parseInt(desiredTemperature)
     });
   }
 
