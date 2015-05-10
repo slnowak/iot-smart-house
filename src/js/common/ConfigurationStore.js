@@ -13,8 +13,8 @@ var _lightsUrl = '';
 var _temperatureUrl = '';
 
 var determineUrlsFrom = function(baseUrl) {
-  _lightsUrl = baseUrl + ':9090';
-  _temperatureUrl = baseUrl + ':9091';
+  _lightsUrl = baseUrl + ':5000' + '/lights';
+  _temperatureUrl = baseUrl + ':5000' + '/temperature';
 };
 
 determineUrlsFrom(cookie.load(URL_KEY));

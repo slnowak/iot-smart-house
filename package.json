@@ -45,7 +45,7 @@
     "react": "^0.13.2",
     "keymirror": "latest",
     "lodash": "latest",
-    "socket.io-client": "latest",
+    "socket.io-client": "0.9.16",
     "react-router": "latest",
     "react-router-bootstrap": "latest",
     "express": "latest",

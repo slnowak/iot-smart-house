@@ -2,7 +2,7 @@ from gevent import monkey
 
 monkey.patch_all()
 
-from flask import Flask, render_template, make_response
+from flask import Flask
 from flask.ext.socketio import SocketIO, emit
 from threading import Thread
 
@@ -14,7 +14,7 @@ import time
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_pass'
-app.config['DEBUG'] = False
+app.config['DEBUG'] = True
 socketio = SocketIO(app)
 
 dhtreader.init()
@@ -71,27 +71,26 @@ def state_translate(state):
     return 'on' if state > 0 else 'off'
 
 
-@socketio.on('connection', namespace='/lights')
+@socketio.on('connect', namespace='/lights')
 def init_sync_lights():
     print "Lights connected!"
     emit('lights_changed', [
         {
             'name': 'room1',
-            'state': state_translate(pins['light']['light-room-1']['state'])
+            'state': state_translate(pins['light']['room1']['state'])
         },
         {
             'name': 'room2',
-            'state': state_translate(pins['light']['light-room-2']['state'])
+            'state': state_translate(pins['light']['room2']['state'])
         },
         {
             'name': 'room3',
-            'state': state_translate(pins['light']['light-room-3']['state'])
+            'state': state_translate(pins['light']['room3']['state'])
         }
     ])
-    return
 
 
-@socketio.on('connection', namespace='/temperature')
+@socketio.on('connect', namespace='/temperature')
 def init_sync_temp():
     print "Temperature connected!"
     emit('temperatures',
@@ -108,21 +107,17 @@ def init_sync_temp():
                  'room_name': 'room3',
                  'state': rooms_desired_temp['room3']
              }
-         ]
-    )
-    return
+         ])
 
 
 @socketio.on('disconnect', namespace='/temperature')
 def test_disconnect_temp():
-    print "Client disconnected!"
-    return
+    print "Client disconnected! (from /temperature namespace)"
 
 
 @socketio.on('disconnect', namespace='/lights')
 def test_disconnect_lights():
-    print "Client disconnected!"
-    return
+    print "Client disconnected! (from /lights namespace)"
 
 
 @socketio.on('switch_light', namespace='/lights')
@@ -131,28 +126,24 @@ def handle_light_change(data):
     state = data['state']
     pin_number = pins['light'][room_id]['pin_number']
 
-    if state == 1:
-        GPIO.output(pin_number, GPIO.HIGH)
-    if state == 0:
-        GPIO.output(pin_number, GPIO.LOW)
+    pin_output = GPIO.HIGH if state == 'on' else GPIO.LOW
+    GPIO.output(pin_number, pin_output)
 
-    for states in pins['light'].itervalues():
-        for pin_state in states:
-            # todo: wtf dude?
-            pin_state['state'] = GPIO.input(pin_state['pin_number'])
+    for room_pin_configuration in pins['light'].itervalues():
+        room_pin_configuration['state'] = GPIO.input(room_pin_configuration['pin_number'])
 
     emit('lights_changed', [
         {
             'name': 'room1',
-            'state': state_translate(pins['light']['light-room-1']['state'])
+            'state': state_translate(pins['light']['room1']['state'])
         },
         {
             'name': 'room2',
-            'state': state_translate(pins['light']['light-room-2']['state'])
+            'state': state_translate(pins['light']['room2']['state'])
         },
         {
             'name': 'room3',
-            'state': state_translate(pins['light']['light-room-3']['state'])
+            'state': state_translate(pins['light']['room3']['state'])
         }
     ], broadcast=True)
 
@@ -205,11 +196,6 @@ def send_global_temp():
 
         print 'global Temp Send'
         time.sleep(5)
-
-
-@app.route("/")
-def index():
-    return render_template('index.html')
 
 
 def signal_handler(signal, frame):
