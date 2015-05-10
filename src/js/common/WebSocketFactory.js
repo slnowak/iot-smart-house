@@ -5,17 +5,20 @@
 var io = require('socket.io-client');
 var ConfigurationStore = require('./ConfigurationStore');
 
+// https://github.com/Automattic/socket.io-client/issues/255
+var connectionsParams = {'force new connection': true};
+
 var WebSocketFactory = {
 
   lightsWebSocket: function () {
-    return io.connect(
-      ConfigurationStore.lightsSocketEndpoint()
+      return io.connect(
+      ConfigurationStore.lightsSocketEndpoint(), connectionsParams
     )
   },
 
   temperatureWebSocket: function () {
     return io.connect(
-      ConfigurationStore.temperatureSocketEndpoint()
+      ConfigurationStore.temperatureSocketEndpoint(), connectionsParams
     )
   }
 };
