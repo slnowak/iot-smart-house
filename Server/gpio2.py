@@ -21,9 +21,10 @@ dhtreader.init()
 
 
 def read_temp():
-    t, h = dhtreader.read(11, 5)
-    return t
-
+    x = dhtreader.read(11, 5)
+    while x == None:
+        x = dhtreader.read(11, 5)
+    return x[0]
 
 GPIO.setmode(GPIO.BCM)
 
@@ -51,11 +52,11 @@ def count_temp_avg_set_condition_or_heating():
     global air_condition, central_heating
     avg = (rooms_desired_temp['room1'] + rooms_desired_temp['room2'] + rooms_desired_temp['room3']) / 3
     if avg < current_temp - 2:
-        central_heating = 'on'
-        air_condition = 'off'
-    elif avg > current_temp + 2:
-        air_condition = 'on'
         central_heating = 'off'
+        air_condition = 'on'
+    elif avg > current_temp + 2:
+        air_condition = 'off'
+        central_heating = 'on'
     else:
         air_condition = 'off'
         central_heating = 'off'
@@ -74,40 +75,13 @@ def state_translate(state):
 @socketio.on('connect', namespace='/lights')
 def init_sync_lights():
     print "Lights connected!"
-    emit('lights_changed', [
-        {
-            'name': 'room1',
-            'state': state_translate(pins['light']['room1']['state'])
-        },
-        {
-            'name': 'room2',
-            'state': state_translate(pins['light']['room2']['state'])
-        },
-        {
-            'name': 'room3',
-            'state': state_translate(pins['light']['room3']['state'])
-        }
-    ])
+    emit_lights(False)
 
 
 @socketio.on('connect', namespace='/temperature')
 def init_sync_temp():
     print "Temperature connected!"
-    emit('desired_temperatures',
-         [
-             {
-                 'roomName': 'room1',
-                 'temperature': rooms_desired_temp['room1']
-             },
-             {
-                 'roomName': 'room2',
-                 'temperature': rooms_desired_temp['room2']
-             },
-             {
-                 'roomName': 'room3',
-                 'temperature': rooms_desired_temp['room3']
-             }
-         ])
+    emit_desired_temp(False)
 
     @copy_current_request_context
     def keep_sending_global_sensor_state(namespace):
@@ -138,20 +112,7 @@ def handle_light_change(data):
     for room_pin_configuration in pins['light'].itervalues():
         room_pin_configuration['state'] = GPIO.input(room_pin_configuration['pin_number'])
 
-    emit('lights_changed', [
-        {
-            'name': 'room1',
-            'state': state_translate(pins['light']['room1']['state'])
-        },
-        {
-            'name': 'room2',
-            'state': state_translate(pins['light']['room2']['state'])
-        },
-        {
-            'name': 'room3',
-            'state': state_translate(pins['light']['room3']['state'])
-        }
-    ], broadcast=True)
+    emit_lights(True)
 
     print "Light change!"
     return
@@ -164,21 +125,7 @@ def handle_desired_temp_change(data):
 
     rooms_desired_temp[room_id] = temp
 
-    emit('desired_temperatures',
-         [
-             {
-                 'roomName': 'room1',
-                 'temperature': rooms_desired_temp['room1']
-             },
-             {
-                 'roomName': 'room2',
-                 'temperature': rooms_desired_temp['room2']
-             },
-             {
-                 'roomName': 'room3',
-                 'temperature': rooms_desired_temp['room3']
-             }
-         ])
+    emit_desired_temp(True)
 
     print "Desired Temp Change!"
     return
@@ -187,7 +134,7 @@ def handle_desired_temp_change(data):
 def send_global_temp(namespace):
     global current_temp
     while True:
-        current_temp = read_temp()
+        curent_temp = read_temp()
         count_temp_avg_set_condition_or_heating()
 
         emit('sensors_state', {
@@ -213,6 +160,41 @@ def send_global_temp(namespace):
 def signal_handler(signal, frame):
     GPIO.cleanup()
     sys.exit(0)
+
+def emit_lights(broadcast):
+    emit('lights_changed', [
+        {
+            'name': 'room1',
+            'state': state_translate(pins['light']['room1']['state'])
+        },
+        {
+            'name': 'room2',
+            'state': state_translate(pins['light']['room2']['state'])
+        },
+        {
+            'name': 'room3',
+            'state': state_translate(pins['light']['room3']['state'])
+        }
+    ], broadcast=broadcast)
+
+def emit_desired_temp(broadcast):
+    emit('desired_temperatures',
+         [
+             {
+                 'roomName': 'room1',
+                 'temperature': rooms_desired_temp['room1']
+             },
+             {
+                 'roomName': 'room2',
+                 'temperature': rooms_desired_temp['room2']
+             },
+             {
+                 'roomName': 'room3',
+                 'temperature': rooms_desired_temp['room3']
+             }
+         ], broadcast=broadcast)
+
+
 
 
 signal.signal(signal.SIGINT, signal_handler)
